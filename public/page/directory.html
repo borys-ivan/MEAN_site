@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        #der1{
+            width: 400px;
+            font-size: 18px;
+        }
+
+        #der2{
+            width: 135px;
+            margin: auto;
+            text-align: center;
+        }
+
+    </style>
+
+
+
+</head>
+
+
+<body>
+
+
+<div class="container-3">
+    <span class="icon"><i class="fa fa-search"></i></span><input ng-model="q" type="search" id="search"
+                                                                 placeholder="Пошук..."/>
+</div>
+
+
+<div class="container">
+
+
+    <!-- <input ng-model="q" id="search1" class="form-control" placeholder="Filter text">-->
+
+    <table class="table table-striped">
+        <!--  <thead>
+          <th>
+              Subject
+          </th>
+          <th>
+              Category
+          </th>
+          </thead>-->
+
+        <tbody>
+
+
+        <tr dir-paginate="podcast in podcasts | filter:q | itemsPerPage: pageSize" current-page="currentPage">
+            <!-- <tr ng-repeat="person in contactlist ">-->
+
+            <td id="der1">
+
+                <a href="/view/{{$index}}">{{podcast.topic}} </a>
+            </td>
+
+            <td id="der2">{{podcast.date}}</td>
+
+
+        </tr>
+
+
+        </tbody>
+
+    </table>
+
+    <div class="paginate paginate-dark wrapper">
+
+        <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)"
+                                 template-url="page/dirPagination.tpl.html"></dir-pagination-controls>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

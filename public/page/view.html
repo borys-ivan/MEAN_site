@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+
+    <link rel="stylesheet" href="/assets/css/main.css"/>
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="/assets/css/ie9.css"/><![endif]-->
+    <noscript>
+        <link rel="stylesheet" href="/assets/css/noscript.css"/>
+    </noscript>
+
+    <script src="/assets/js/jquery.min.js"></script>
+    <script src="/assets/js/skel.min.js"></script>
+    <script src="/assets/js/util.js"></script>
+    <script src="/assets/js/main.js"></script>
+
+
+
+<style>
+    /*"franklin-gothic-urw-comp-1"*/
+    #view-topic{
+        letter-spacing: 5px;
+        text-align: justify;
+
+    }
+    #view-description{
+        text-align: justify;
+
+    }
+
+    #view-data{
+        text-align: right;
+
+    }
+
+    #link-close{
+        margin-top: -55px;
+        margin-bottom:  30px;
+    }
+
+    #image_back{
+        text-decoration: none;
+    }
+
+</style>
+
+
+</head>
+<body>
+<div id="link-close">
+    <a id="image_back" href="/"><img src="/images/back.png">Повернутись до подкастів</a>
+</div>
+<!--<p ng-bind-html="myText"></p>
+
+<iframe ng-src="myText"></iframe>-->
+
+<!--<iframe width='100%' height='166' scrolling='no' frameborder='no' src='https://w.soundcloud.com/player?url=https%3A//
+api.soundcloud.com/tracks/310583525&amp;color=ff5500&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;
+show_user=true&amp;show_reposts=false'></iframe>-->
+
+
+<h2 id="view-topic">{{podcast.topic}}</h2>
+<!--<b>{{person.category}}</b>-->
+
+<audio controls="controls">
+    <source src={{podcast.audio}} type="audio/mp3">
+</audio>
+<p id="view-description">{{podcast.description}}</p>
+
+
+
+<hr>
+<address id="view-data">
+    {{podcast.date}}
+</address>
+</body>
+</html>

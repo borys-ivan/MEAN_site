@@ -1,0 +1,166 @@
+<!DOCTYPE>
+<html ng-app="myApp">
+<head>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" href="assets/css/paginate.css"/>
+    <link rel="stylesheet" href="assets/css/search.css"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.32/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.32/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.32/angular-cookies.js"></script>
+
+    <script src="assets/js/ng-file-upload-shim.min.js"></script>
+    <script src="assets/js/ng-file-upload.min.js"></script>
+
+    <script src="/assets/js/dirPagination.js"></script>
+    <script src="/controllers/controller.js"></script>
+
+    <title>Podcasts List</title>
+
+
+    <style>
+        td#test {
+            width: 200px;
+            border: 1px solid red;
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container" ng-controller="adminController">
+    <!--///////////////////////-->
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <!--///////////////////////-->
+            <h1>Podcasts List</h1>
+
+            <div class="container-4">
+                <input ng-model="q" type="search" id="search" placeholder="Пошук..."/>
+            </div>
+
+
+            <form name="Form" ng-submit="submitForm(Form.$valid)" novalidate>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Тема</th>
+                    <th>Дата</th>
+                    <th>Action</th>
+                    <!--<th>Action</th>-->
+                    <th>&nbsp;</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr>
+                    <td>
+
+
+                        <div class="form-group" ng-class="{ 'has-error' : Form.topic.$invalid && ! Form.topic.$pristine }">
+                        <input class="form-control" ng-model="podcast.topic" name="topic" required><br>
+                        <p ng-show="Form.topic.$invalid && !Form.topic.$pristine" class="help-block">Заповніть рядок з темою.</p>
+                        </div>
+                        <p><b>Опис</b></p>
+                        <div class="form-group" ng-class="{ 'has-error' : Form.topic.$invalid && ! Form.topic.$pristine }">
+                        <textarea name="description" rows="5" cols="50" class="from-control" ng-model="podcast.description" required></textarea>
+                            <p ng-show="Form.description.$invalid && !Form.description.$pristine" class="help-block">Заповніть опис.</p>
+                        </div>
+                    </td>
+                    <!--<td><input class="form-control" ng-model="contact.email"></td>
+                    <td><input class="form-control" ng-model="contact.date"></td>-->
+
+                    <td>
+                       <!-- <div class="form-group" ng-class="{ 'has-error' : Form.topic.$invalid && ! Form.topic.$pristine }">-->
+                        <input name="date" id="date" class="from-control" type="date" ng-model="podcast.date" >
+                       <!--     <p ng-show="Form.date.$invalid && !Form.date.$pristine" class="help-block">Заповніть рядок з темою.</p>
+                        </div>-->
+                    </td>
+                    <!-- <td>
+                         <button class="btn btn-primary" ng-click="addContact()">Add Contact</button>
+                     </td>-->
+                    <td width="300px">
+                        <button class="btn btn-primary" ng-click="addPodcast()" ng-disabled ="$invalid">Add Podcast</button>&nbsp;&nbsp;
+                        <button class="btn btn-info" ng-click="update()">Update</button>&nbsp;&nbsp;<button
+                            class="btn btn-info" ng-click="deselect()">Clear
+                    </button>
+                    </td>
+                </tr>
+            </form>
+                <tr>
+                    <td>
+                    <form  ng-controller="adminController as up" name="up.upload_form">
+                        <!--Single Image with validations-->
+                        <input
+                                type="file"
+                                ngf-select
+                                ng-model="up.file"
+                                name="file"
+                                ngf-pattern="'audio/*'"
+                                accept="audio/*"
+                                ngf-max-size="50MB"
+                        />
+                        <!--Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file || '/thumb.jpg'"/>-->
+                        <i ng-show="up.upload_form.file.$error.required">*required</i><br>
+                        <i ng-show="up.upload_form.file.$error.maxSize">File too large
+                            {{up.file.size / 1000000|number:1}}MB: max 50M</i>
+                        <button type="submit" ng-click="up.submit()">Загрузити</button>
+                        <p>{{up.progress}}
+                          <!--  <tt>{{up.file.name}}</tt>
+                        <input type="text" name="file" ng-model="up.file.name">-->
+                    </form>
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <!--  <div ng-view>-->
+
+                <!--<tr ng-repeat="contact in contactlist">-->
+
+                <tr dir-paginate="podcast in podcasts | filter:q | itemsPerPage: pageSize"
+                    current-page="currentPage">
+
+                    <td id="test"><b>{{podcast.topic}}</b><br>{{podcast.description}}</td>
+                   <!-- <td>{{contact.description}}</td>-->
+                    <td>{{podcast.date}}</td>
+                    <td><audio controls="controls">
+                        <source src={{podcast.audio}} type="audio/mp3">
+                    </audio></td>
+                    <td>
+                        <button class="btn btn-danger" ng-click="remove(podcast._id)">Remove</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-warning" ng-click="edit(podcast._id)">Edit</button>
+                    </td>
+
+                </tr>
+
+                <!--   </div>-->
+
+                </tbody>
+            </table>
+
+        </div>
+        <!--///////////////////////-->
+    </div>
+</div>
+<!--///////////////////////-->
+<div class="paginate wrapper">
+    <dir-pagination-controls boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)"
+                             template-url="page/dirPagination.tpl.html"></dir-pagination-controls>
+</div>
+
+
+
+</body>
+</html>
